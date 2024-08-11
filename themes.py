@@ -11,6 +11,14 @@ from together import Together
 from langchain_core.exceptions import OutputParserException
 
 api_key = os.getenv("TOGETHER_LLM_API_KEY")
+
+def extract_video_id(youtube_url):
+    # Use a regular expression to find the video ID in the URL
+    video_id = re.search(r"v=([^&]+)", youtube_url)
+    if video_id:
+        return video_id.group(1)
+    return None
+	
 def generate_image(prompt, filename):
     # Directly use the API key instead of getting it from environment variables
     api_key = api_key
@@ -43,6 +51,10 @@ def generate_image(prompt, filename):
 
 
 def generate_content(doc_content, template='future', author='Anonymous', style='default', youtube_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
+	template = template.lower()
+        video_id = extract_video_id(youtube_url)
+    	embed_url = f"https://www.youtube.com/embed/{video_id}" if video_id else youtube_url
+
 	template = template.lower()
 	if template == "future":
 		document = Document(text=doc_content)
@@ -168,7 +180,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 											<p>{parsed_output['conclusion']}</p>
 										</section>
 										<section>
-										<iframe width="560" height="315" src={youtube_url} 
+										<iframe width="560" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe>
@@ -390,7 +402,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 													<li><a href="#" class="button">More</a></li>
 												</ul>
 											</section>
-											<section><iframe width="400" height="315" src={youtube_url} 
+											<section><iframe width="400" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -582,7 +594,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 								</div>
 							</div>
 						</section>
-						<section><iframe width="560" height="315" src={youtube_url} 
+						<section><iframe width="560" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -771,7 +783,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 
 												<section>
 													<h3>Another Subheading</h3>
-										<section><iframe width="560" height="315" src={youtube_url} 
+										<section><iframe width="560" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -962,7 +974,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 								<p>{parsed_output['subheading']}</p>
 								{content_html}
 								</section>
-									<section><iframe width="560" height="315" src={youtube_url} 
+									<section><iframe width="560" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -1160,7 +1172,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 							<p>{parsed_output['three_content']}</p>
 						</div>
 					</section>
-					<section><iframe width="560" height="315" src={youtube_url} 
+					<section><iframe width="560" height="315" src={embed_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
