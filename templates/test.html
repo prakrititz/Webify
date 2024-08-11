@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live HTML Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/theme/dracula.min.css">
+    <style>
+        /* CSS For The Buttons */
+        #saveBtn, #loadBtn, #downloadBtn {
+            background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);
+            border-radius: 8px;
+            border-style: none;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-family: "Inter UI", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            height: 4rem;
+            padding: 0 1.6rem;
+            text-align: center;
+            text-shadow: rgba(0, 0, 0, 0.25) 0 3px 8px;
+            transition: all .5s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        #saveBtn:hover, #loadBtn:hover, #downloadBtn:hover {
+            box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+            transition-duration: .1s;
+        }
+        @media (min-width: 768px) {
+            #saveBtn, #loadBtn, #downloadBtn {
+                padding: 0 2.6rem;
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #header {
+            background-color: #0b042b;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        #main {
+            display: flex;
+            flex-grow: 1;
+        }
+        #editor-container, #preview-container {
+            width: 50%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        #preview-container {
+            border-left: 1px solid #000000;
+            padding: 10px;
+            overflow: auto;
+        }
+        #preview {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .CodeMirror {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <div>
+            <button id="saveBtn">Save</button>
+            <button id="loadBtn">Load Generated HTML</button>
+        </div>
+        <button id="downloadBtn">Download HTML</button>
+    </div>
+    <div id="main">
+        <div id="editor-container"></div>
+        <div id="preview-container">
+            <iframe id="preview"></iframe>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/xml/xml.min.js"></script>
+    
+    <script>
+        const editorContainer = document.getElementById('editor-container');
+        const preview = document.getElementById('preview');
+        const saveBtn = document.getElementById('saveBtn');
+        const loadBtn = document.getElementById('loadBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        
+        // Initialize CodeMirror
+        const editor = CodeMirror(editorContainer, {
+            mode: 'htmlmixed',
+            theme: 'dracula',
+            lineNumbers: true,
+            autofocus: true
+        });
+        
+        function updatePreview() {
+            const previewDocument = preview.contentDocument;
+            previewDocument.open();
+            previewDocument.write(editor.getValue());
+            previewDocument.close();
+        }
+        
+        editor.on('change', updatePreview);
+        
+        // Save code to localStorage
+        saveBtn.addEventListener('click', () => {
+            localStorage.setItem('htmlCode', editor.getValue());
+            alert('Code saved!');
+        });
+        
+        // Load code from localStorage
+        loadBtn.addEventListener('click', () => {
+            const generatedHtml = localStorage.getItem('generatedHtml');
+            if (generatedHtml) {
+                editor.setValue(generatedHtml);
+                updatePreview();
+                // Clear the generatedHtml from localStorage after loading
+                localStorage.removeItem('generatedHtml');
+            } else {
+                alert('No generated HTML found. You can start editing from scratch!');
+            }
+        });
+        
+        // Download HTML file
+        // downloadBtn.addEventListener('click', () => {
+        //     const content = editor.getValue();
+        //     const blob = new Blob([content], { type: 'text/html' });
+        //     const url = URL.createObjectURL(blob);
+        //     const a = document.createElement('a');
+        //     a.href = url;
+        //     a.download = 'index.html';
+        //     document.body.appendChild(a);
+        //     a.click();
+        //     document.body.removeChild(a);
+        //     URL.revokeObjectURL(url);
+        // });
+
+// Helper function to update HTML paths
+function updateHtmlPaths(html) {
+    // Remove leading '.' from stylesheet path
+    html = html.replace(/href=["']\.\/static\/css\/generated\.css["']/g, 'href="static/css/generated.css"');
+    
+    // Remove leading './' from image paths
+    html = html.replace(/src=["']\.\/static\/generated\//g, 'src="static/generated/');
+    
+    return html;
+}
+//added here
+
+downloadBtn.addEventListener('click', async () => {
+    const content = editor.getValue();
+
+    const zip = new JSZip();
+
+    // Add generated CSS
+    try {
+        const cssResponse = await fetch('./static/css/generated.css');
+        const cssText = await cssResponse.text();
+        zip.file("static/css/generated.css", cssText);
+    } catch (error) {
+        console.error("Error fetching generated CSS:", error);
+    }
+
+    // Extract and add images
+    const images = extractImages(content);
+    for (let image of images) {
+        try {
+            const response = await fetch(image);
+            const blob = await response.blob();
+            // Remove the leading './' from the image path
+            const imagePath = image.startsWith('./') ? image.slice(2) : image;
+            zip.file(imagePath, blob);
+        } catch (error) {
+            console.error(`Error fetching image ${image}:`, error);
+        }
+    }
+
+    // Update HTML to use correct paths
+    let updatedHtml = updateHtmlPaths(content);
+
+    // Add updated HTML to zip
+    zip.file("main/index.html", updatedHtml);
+
+    zip.generateAsync({type:"blob"}).then(function(zipBlob) {
+        const url = URL.createObjectURL(zipBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'website.zip';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+});
+
+
+// Function to extract image paths from HTML content
+function extractImages(html) {
+    const imgRegex = /<img[^>]+src=["'](\.\/?static\/generated\/[^"']+)["']/g;
+    const images = [];
+    let match;
+    while ((match = imgRegex.exec(html)) !== null) {
+        images.push(match[1]);
+    }
+    return images;
+}
+
+
+//to here
+
+function extractLinkedStylesheets(htmlContent) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const linkElements = doc.querySelectorAll('link[rel="stylesheet"]');
+    return Array.from(linkElements).map(link => link.getAttribute('href'));
+}
+
+function extractImages(htmlContent) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const imgElements = doc.getElementsByTagName('img');
+    return Array.from(imgElements).map(img => img.getAttribute('src'));
+}
+        
+        // Load generated HTML on page load if available
+// Load generated HTML on page load if available
+window.addEventListener('load', () => {
+    const generatedHtml = localStorage.getItem('generatedHtml');
+    if (generatedHtml) {
+        editor.setValue(generatedHtml);
+        updatePreview();
+        // Clear the generatedHtml from localStorage after loading
+        localStorage.removeItem('generatedHtml');
+    }
+});
+        
+        // Initial preview update
+        updatePreview();
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Webify - Video to Blog Post Generator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<script src="{{ url_for('static', filename='js/script.js') }}"></script> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+</style>
+</head>
+<body>
+<div class="gradient-bg">
+  <div class="gradients-container">
+    <div class="g1"></div>
+    <div class="g2"></div>
+    <div class="g3"></div>
+    <div class="g4"></div>
+    <div class="g5"></div>
+    <div class="interactive"></div>
+  </div>
+</div>
+<div class="header">
+    <div>
+      <h1>Webify</h1>
+      <div class="container">
+        <span class="ab neon-text">Powered By Llama3.1</span>
+      </div>
+      <p>Transform Your Videos into Engaging Blog Posts</p>
+    </div>
+  </div>
+<div class="card">
+  <div class="noise"></div>
+  <div class="content">
+    <div class="content-section">
+      <h2>About</h2>
+      <p>Webify is an innovative tool designed to help content creators, marketers, and educators convert their video content into well-structured, engaging blog posts. Our AI-powered system analyzes your videos and generates high-quality written content, saving you time and expanding your reach.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>What does it do?</h2>
+    </div>
+    
+    <div class="form-section">
+        <h2>Select template</h2>
+        <p id="selected-template-text">Selected template: None</p>
+        <form id="blogCraftForm">
+            <div class="form-group">
+                <input name="selected_template" id="selected_template" value="">
+            </div>
+            <div class="template-options">
+                <div class="template-option" onclick="selectTemplate('future', this)">
+                    <div class="selection-indicator"></div>
+                    
+                        <img src="{{ url_for('static', filename='images/templates/future.jpg') }}" alt="Modern Template">
+                    </a>
+                    <p class="caption">Future</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('editorial', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/editorial.jpg') }}"alt="Nature Template">
+                    </a>
+                    <p class="caption">Editorial</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('reader', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/reader.jpg') }}" alt="Tech Template">
+                    </a>
+                    <p class="caption">Reader</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('arcana', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/arcana.jpg') }}" alt="Minimilast Template">
+                    </a>
+                    <p class="caption">Arcana</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('hycuna', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/hycuna.jpg') }}" alt="Vintage Template">
+                    </a>
+                    <p class="caption">Hycuna</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('space', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/space.jpg') }}" alt="Vampire Template">
+                    </a>
+                    <p class="caption">Space</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('vintage', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/vintage.jpg') }}" alt= "Peach Template">
+                    </a>
+                    <p class="caption">Vintage</p>
+                </div>
+                <div class="template-option" onclick="selectTemplate('strata', this)">
+                    <div class="selection-indicator"></div>
+                        <img src="{{ url_for('static', filename='images/templates/strata.jpg') }}" alt="Vintage Template">
+                    </a>
+                    <p class="caption">Strata</p>
+                </div>
+                </div>
+            </div>
+        <h2>Select color palette</h2>
+        <p id="selected-palette-text">Selected palette: None</p>
+            <div class="form-group">
+                <input name="selected_palette" id="selected_palette" value="">
+            </div>
+        <div class="palette-options">
+            <div class="palette-option" onclick="selectPalette('Lime', this)">
+            <div class="selection-indicator"></div>
+                <img src="{{ url_for('static', filename='images/palettes/lime.jpg') }}" alt="Lime Palette">
+            </a>
+            <p class="caption">Lime</p>
+        </div>
+            <div class="palette-option" onclick="selectPalette('valley', this)">
+                <div class="selection-indicator"></div>
+                    <img src="{{ url_for('static', filename='images/palettes/valley.jpg') }}" alt="Valley Palette">
+                </a>
+                <p class="caption">Valley</p>
+            </div>
+            <div class="palette-option" onclick="selectPalette('phantom', this)">
+                <div class="selection-indicator"></div>
+                    <img src="{{ url_for('static', filename='images/palettes/phantom.jpg') }}" alt="Phantom Palette">
+                </a>
+                <p class="caption">Phantom</p>
+            </div>
+            <div class="palette-option" onclick="selectPalette('sakura', this)">
+                <div class="selection-indicator"></div>
+                    <img src="{{ url_for('static', filename='images/palettes/sakura.jpg') }}" alt="Sakura Palette">
+                </a>
+                <p class="caption">Sakura</p>
+            </div>
+            <div class="palette-option" onclick="selectPalette('elegant', this)">
+                <div class="selection-indicator"></div>
+                    <img src="{{ url_for('static', filename='images/palettes/elegant.jpg') }}" alt="Elegant Palette">
+                </a>
+                <p class="caption">Elegant</p>
+            </div>
+            <div></div>
+            <div></div>
+            <h2>Enter YouTube URL</h2>
+            <div class="form-group">
+                <input type="text" placeholder="Enter YouTube video URL" required name="video_url">
+            </div>
+            <div class="form-group">
+                <button type="submit">GENERATE BLOG POST</button>
+            </div>
+        </form>
+        <div id="generated_content"></div>
+    </div>    
+  </div>
+  <div class="content-section">
+    <h2>About the Author</h2>
+    <p>This project was created as a solo endeavor by Prakrititz Borah, a passionate developer dedicated to innovative solutions.</p>
+    <p>Connect with Prakrititz:</p>
+    <ul>
+      <li>LinkedIn: <a href="https://www.linkedin.com/in/prakrititz-borah" target="_blank">Prakrititz Borah</a></li>
+      <li>Email: <a href="mailto:prakrititz.borah@iiitb.ac.in">prakrititz.borah@iiitb.ac.in</a></li>
+    </ul>
+  </div>
+  
+</div>
+<footer>
+  <p>© 2024 Webify. All rights reserved.</p>
+  <p>Contact us: <a href="prakrititz.borah@iiitb.ac.in">prakrititz.borah@iiitb.ac.in</a></p>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const interBubble = document.querySelector('.interactive');
+    let curX = 0;
+    let curY = 0;
+    let tgX = 0;
+    let tgY = 0;
+    const move = () => {
+        curX += (tgX - curX) / 20;
+        curY += (tgY - curY) / 20;
+        interBubble.style.transform = `translate(${Math.round(curX)}px, ${Math.round(curY)}px)`;
+        requestAnimationFrame(move);
+    };
+    window.addEventListener('mousemove', (event) => {
+        tgX = event.clientX;
+        tgY = event.clientY;
+    });
+    move();
+});
+$(document).ready(function() {
+    $('#blogCraftForm').on('submit', function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: '/generate-blog',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response.html_content) {
+                    localStorage.setItem('generatedHtml', response.html_content);
+                    window.location.href = "test.html";
+                } else if (response.error) {
+                    alert('Error: ' + response.error);
+                }
+            },
+            error: function() {
+                alert('An error occurred while generating the blog post.');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
