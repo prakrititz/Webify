@@ -10,9 +10,10 @@ from together.error import AuthenticationError
 from together import Together
 from langchain_core.exceptions import OutputParserException
 
+api_key = os.getenv("TOGETHER_LLM_API_KEY")
 def generate_image(prompt, filename):
     # Directly use the API key instead of getting it from environment variables
-    api_key = "fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+    api_key = api_key
     try:
         client = Together(api_key=api_key)
         response = client.images.generate(
@@ -47,7 +48,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -63,8 +64,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -221,7 +222,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -237,8 +238,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -427,7 +428,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -442,8 +443,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -625,7 +626,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -641,8 +642,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -841,7 +842,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -859,8 +860,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -1017,7 +1018,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -1039,8 +1040,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -1228,7 +1229,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 
 		# Step 2: Create Index and Response Schemas
@@ -1248,8 +1249,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		print("done")
 		# Step 3: Setup LLM and Query Engine
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
@@ -1426,7 +1427,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			api_key=api_key
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -1444,8 +1445,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
-			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
+			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+			api_key=api_key
 		)
 
 		query_engine = index.as_query_engine(
