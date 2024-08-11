@@ -1,0 +1,8 @@
+flask
+youtube_transcript_api
+llama_index
+langchain
+together
+langchain_core
+llama_index.llms.together
+llama_index.embeddings.together
