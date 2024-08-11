@@ -1,7 +1,7 @@
 # Webify
 
 Webify is a tool designed to effortlessly convert YouTube videos into fully functional websites. This project leverages Flask and LangChain to extract and parse content from YouTube videos, such as transcripts, thumbnails, and metadata, and generates a responsive, SEO-friendly website. Whether you're a content creator looking to repurpose your videos or someone who wants to quickly build a web presence, Webify makes it simple.
-
+![](static/images/home.jpg)
 ## Features
 
 - **Automatic Transcription**: Uses LangChain to convert video speech into text, which can be used as content for the website.
@@ -38,7 +38,7 @@ Webify is a tool designed to effortlessly convert YouTube videos into fully func
 
 3. Set up your environment variables:
    ```bash
-   export TOGETHER_API_KEY='your_together_ai_api_key'
+   export TOGETHER_LLM_API_KEY='your_together_ai_api_key'
    ```
 
 4. Run the application:
