@@ -1,9 +1,9 @@
 # Webify
 
 Webify is a tool designed to effortlessly convert YouTube videos into fully functional websites. This project leverages Flask and LangChain to extract and parse content from YouTube videos, such as transcripts, thumbnails, and metadata, and generates a responsive, SEO-friendly website. Whether you're a content creator looking to repurpose your videos or someone who wants to quickly build a web presence, Webify makes it simple.
+
 ![](static/images/home.jpg)
 ## Features
-
 - **Automatic Transcription**: Uses LangChain to convert video speech into text, which can be used as content for the website.
 - **Customizable Templates**: Choose from a variety of pre-designed templates to match your brand.
 - **SEO Optimization**: Automatically includes meta tags, descriptions, and keywords to improve search engine rankings.
@@ -11,7 +11,8 @@ Webify is a tool designed to effortlessly convert YouTube videos into fully func
 - **Responsive Design**: Generated websites are mobile-friendly and adaptable to different screen sizes.
 - **Video Embedding**: Automatically embeds the YouTube video into the website, allowing visitors to watch directly from the site.
 - **Metadata Extraction & Parsing**: Uses LangChain to extract and parse video metadata like title, description, and tags to populate the website content.
-
+- **Easily Downloadable**: The generated website is packaged into a zip file for easy downloading.
+- **Powered by Llama 3.1**: Utilizes the powerful Llama 3.1 model for advanced language processing and content generation.
 ## Getting Started
 
 ### Prerequisites
@@ -20,7 +21,7 @@ Webify is a tool designed to effortlessly convert YouTube videos into fully func
 - **YouTube Data API Key**: To fetch video data and transcripts.
 - **Flask**: For running the web server.
 - **LangChain**: For extracting, processing, and parsing information from YouTube videos.
-- **Pytube or Youtube-dl**: For downloading video content.
+- **LlamaIndex**: For embedding the large contents to the LLama model.
 - **Bootstrap or TailwindCSS**: For front-end styling (optional but recommended).
 
 ### Installation
