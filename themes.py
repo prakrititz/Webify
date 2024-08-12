@@ -10,18 +10,9 @@ from together.error import AuthenticationError
 from together import Together
 from langchain_core.exceptions import OutputParserException
 
-api_key = os.getenv("TOGETHER_LLM_API_KEY")
-
-def extract_video_id(youtube_url):
-    # Use a regular expression to find the video ID in the URL
-    video_id = re.search(r"v=([^&]+)", youtube_url)
-    if video_id:
-        return video_id.group(1)
-    return None
-	
 def generate_image(prompt, filename):
     # Directly use the API key instead of getting it from environment variables
-    api_key = api_key
+    api_key = "fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
     try:
         client = Together(api_key=api_key)
         response = client.images.generate(
@@ -49,18 +40,33 @@ def generate_image(prompt, filename):
         print(f"An error occurred while generating the image: {e}")
         return None
 
+import re
+
+def get_youtube_embed_url(url):
+    # Regular expression to match YouTube video IDs
+    pattern = r'(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)'
+    
+    # Extract the video ID
+    match = re.search(pattern, url)
+    if match:
+        video_id = match.group(1)
+        # Construct the embed URL
+        embed_url = f'https://www.youtube.com/embed/{video_id}'
+        return embed_url
+    else:
+        return None
+
 
 def generate_content(doc_content, template='future', author='Anonymous', style='default', youtube_url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"):
 	template = template.lower()
-        video_id = extract_video_id(youtube_url)
-    	embed_url = f"https://www.youtube.com/embed/{video_id}" if video_id else youtube_url
+	#EMBEDDED VERSION
+	youtube_url = get_youtube_embed_url(youtube_url)
 
-	template = template.lower()
 	if template == "future":
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -76,8 +82,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -180,7 +186,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 											<p>{parsed_output['conclusion']}</p>
 										</section>
 										<section>
-										<iframe width="560" height="315" src={embed_url} 
+										<iframe  position: relative; width="560" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe>
@@ -234,7 +240,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -250,8 +256,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -402,7 +408,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 													<li><a href="#" class="button">More</a></li>
 												</ul>
 											</section>
-											<section><iframe width="400" height="315" src={embed_url} 
+											<section><iframe  position: relative; width="400" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -440,7 +446,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -455,8 +461,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -582,7 +588,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 								{content_html}
 							</div>
 						</section>
-																																<section style="display: flex; justify-content: right; align-items: right; flex-direction: column; height: 100%;"></section>><iframe style="text-align: right; "width="1200" height="600" src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+																																<iframe  position: relative; section style="display: flex; justify-content: right; align-items: right; flex-direction: column; height: 100%;"></section>><iframe  position: relative; style="text-align: right; "width="1200" height="600" src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -594,7 +600,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 								</div>
 							</div>
 						</section>
-						<section><iframe width="560" height="315" src={embed_url} 
+						<section><iframe width="560" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -638,7 +644,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -654,8 +660,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -783,7 +789,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 
 												<section>
 													<h3>Another Subheading</h3>
-										<section><iframe width="560" height="315" src={embed_url} 
+										<section><iframe width="560" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -854,7 +860,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -872,8 +878,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -974,7 +980,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 								<p>{parsed_output['subheading']}</p>
 								{content_html}
 								</section>
-									<section><iframe width="560" height="315" src={embed_url} 
+									<section><iframe width="560" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -1030,7 +1036,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -1052,8 +1058,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -1172,7 +1178,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 							<p>{parsed_output['three_content']}</p>
 						</div>
 					</section>
-					<section><iframe width="560" height="315" src={embed_url} 
+					<section><iframe width="560" height="315" src={youtube_url} 
         title="YouTube video player" frameborder="0" 
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
         allowfullscreen>Website created based on this YouTube video</iframe></section>
@@ -1241,7 +1247,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		# Step 2: Create Index and Response Schemas
@@ -1261,8 +1267,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		print("done")
 		# Step 3: Setup LLM and Query Engine
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
@@ -1439,7 +1445,7 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		document = Document(text=doc_content)
 		embed_model = TogetherEmbedding(
 			model_name="togethercomputer/m2-bert-80M-8k-retrieval",
-			api_key=api_key
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 		index = VectorStoreIndex.from_documents([document], embed_model=embed_model)
 
@@ -1457,8 +1463,8 @@ def generate_content(doc_content, template='future', author='Anonymous', style='
 		format_instructions = output_parser.get_format_instructions()
 
 		llm = TogetherLLM(
-			model="meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
-			api_key=api_key
+			model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+			api_key="fb5107bddcd0f7f144ca41251d77bbb59f9f5f64cb21435473f15a2801d28d73"
 		)
 
 		query_engine = index.as_query_engine(
