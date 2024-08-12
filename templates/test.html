@@ -168,7 +168,6 @@ function updateHtmlPaths(html) {
 
 downloadBtn.addEventListener('click', async () => {
     const content = editor.getValue();
-
     const zip = new JSZip();
 
     // Add generated CSS
@@ -186,8 +185,8 @@ downloadBtn.addEventListener('click', async () => {
         try {
             const response = await fetch(image);
             const blob = await response.blob();
-            // Remove the leading './' from the image path
-            const imagePath = image.startsWith('./') ? image.slice(2) : image;
+            // Remove the leading '../' from the image path
+            const imagePath = image.startsWith('../') ? image.slice(3) : image;
             zip.file(imagePath, blob);
         } catch (error) {
             console.error(`Error fetching image ${image}:`, error);
@@ -212,10 +211,9 @@ downloadBtn.addEventListener('click', async () => {
     });
 });
 
-
-// Function to extract image paths from HTML content
+// Update the extractImages function
 function extractImages(html) {
-    const imgRegex = /<img[^>]+src=["'](\.\/?static\/generated\/[^"']+)["']/g;
+    const imgRegex = /<img[^>]+src=["'](\.\.\/?static\/[^"']+)["']/g;
     const images = [];
     let match;
     while ((match = imgRegex.exec(html)) !== null) {
@@ -223,6 +221,20 @@ function extractImages(html) {
     }
     return images;
 }
+
+
+
+function extractImages(html) {
+    const imgRegex = /<img[^>]+src=["'](\.\.\/?static\/[^"']+)["']/g;
+    const images = [];
+    let match;
+    while ((match = imgRegex.exec(html)) !== null) {
+        images.push(match[1]);
+    }
+    return images;
+}
+
+
 
 
 //to here
